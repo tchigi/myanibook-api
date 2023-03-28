@@ -1,6 +1,6 @@
 import {Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
-import {User} from "../users/users.model";
-import {UsersInfo} from "./users-info.model";
+import {User} from "../../users/users.model";
+import {UsersInfo} from "../users-info.model";
 
 @Table({tableName: 'users-info-connective', createdAt: false, updatedAt: false})
 export class UsersInfoConnectiveModel extends Model<UsersInfoConnectiveModel> {

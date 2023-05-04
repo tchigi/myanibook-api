@@ -26,6 +26,13 @@ export class UsersInfoController {
         return this.usersInfoService.changeAnimeList(userInfoDto)
     }
 
+    @ApiOperation({summary: 'Change anime day of addition list'})
+    @ApiResponse({status: 200, type: UsersInfo})
+    @Post('/anime-day-of-addition-list')
+    changeAnimeDayOfAdditionList(@Body() userInfoDto: ChangeUserInfoDto){
+        return this.usersInfoService.changeAnimeDayOfAdditionList(userInfoDto)
+    }
+
     @ApiOperation({summary: 'Change avatar'})
     @ApiResponse({status: 200, type: UsersInfo})
     @Post('/avatar')

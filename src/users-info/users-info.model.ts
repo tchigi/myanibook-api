@@ -24,6 +24,10 @@ export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
     @Column({type: DataType.STRING , allowNull: true})
     animeList: string;
 
+    @ApiProperty({example: 'test', description: 'User anime day of addition list'})
+    @Column({type: DataType.STRING , allowNull: true})
+    animeDayOfAdditionList: string;
+
     @ApiProperty({example: '1', description: 'User ID'})
     @ForeignKey(() => User)
     @Column({type: DataType.INTEGER})

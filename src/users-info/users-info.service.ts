@@ -46,6 +46,20 @@ export class UsersInfoService {
         return info
     }
 
+    async changeAnimeDayOfAdditionList(dto: ChangeUserInfoDto) {
+        let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
+        if (!info) {
+            info = await this.usersInfoRepository.create()
+            info.userId = dto.userId
+            await info.$set('users', [dto.userId])
+        }
+
+        info.animeDayOfAdditionList = dto.value
+
+        await info.save()
+        return info
+    }
+
     async changeAvatar(dto: ChangeUserInfoDto, image: any) {
         let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
         if (!info) {

@@ -27,7 +27,7 @@ import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/user
         }),
         SequelizeModule.forRoot({
             dialect: 'postgres',
-            host: 'localhost',
+            host: 'postgres',
             port: 5432,
             username: 'postgres',
             password: 'root',

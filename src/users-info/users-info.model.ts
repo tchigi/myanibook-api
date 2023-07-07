@@ -5,7 +5,7 @@ import {UsersInfoConnectiveModel} from "./users-info-connective/users-info-conne
 
 interface UsersInfoCreationAttrs {
 }
-@Table({tableName: 'users-info', updatedAt: false, createdAt: false})
+@Table({tableName: 'users_info', updatedAt: false, createdAt: false})
 export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
 
     @ApiProperty({example: '1', description: 'id'})
@@ -21,7 +21,7 @@ export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
     avatar: string;
 
     @ApiProperty({example: 'test', description: 'User anime list'})
-    @Column({type: DataType.STRING , allowNull: true})
+    @Column({type: DataType.STRING , allowNull: true, })
     animeList: string;
 
     @ApiProperty({example: 'test', description: 'User anime day of addition list'})

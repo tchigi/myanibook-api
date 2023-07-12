@@ -5,7 +5,7 @@ import {UsersInfoConnectiveModel} from "./users-info-connective/users-info-conne
 
 interface UsersInfoCreationAttrs {
 }
-@Table({tableName: 'users_info', updatedAt: false, createdAt: false})
+@Table({tableName: 'users-info', updatedAt: false, createdAt: false})
 export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
 
     @ApiProperty({example: '1', description: 'id'})

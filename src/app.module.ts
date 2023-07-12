@@ -27,10 +27,10 @@ import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/user
         }),
         SequelizeModule.forRoot({
             dialect: 'postgres',
-            host: 'containers-us-west-91.railway.app',
-            port: 7567,
+            host: 'containers-us-west-1.railway.app',
+            port: 5559,
             username: 'postgres',
-            password: 'A2SfDpbIe3GOMphiLtCz',
+            password: 'mjiasB8vvwshKekgEpbA',
             database: 'railway',
             models: [User, Role, UserRoles, Post, UsersInfo, UsersInfoConnectiveModel],
             autoLoadModels: true

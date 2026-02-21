@@ -22,16 +22,19 @@ import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/user
     controllers: [],
     providers: [],
     imports: [
+        ConfigModule.forRoot({
+            envFilePath: '.env',
+        }),
         ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname, 'static'),
         }),
         SequelizeModule.forRoot({
             dialect: 'postgres',
-            host: 'containers-us-west-179.railway.app',
-            port: 6422,
-            username: 'postgres',
-            password: 'r4Yk1lNChBKQGOfF0RgQ',
-            database: 'railway',
+            host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT),
+            username: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
             models: [User, Role, UserRoles, Post, UsersInfo, UsersInfoConnectiveModel],
             autoLoadModels: true
         }),

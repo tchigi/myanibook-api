@@ -19,7 +19,7 @@ export class PostsController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
     @Post()
-    @UseInterceptors(FileInterceptor('image'))
+    @UseInterceptors(FileInterceptor('image', { limits: { fileSize: 1 * 1024 * 1024 } }))
     createPost(@Body() dto:CreatePostDto, @Req() req, @UploadedFile() image) {
         return  this.postService.create(dto, image, req.user.id)
     }

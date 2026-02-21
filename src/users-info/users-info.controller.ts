@@ -46,7 +46,7 @@ export class UsersInfoController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('/avatar')
-    @UseInterceptors(FileInterceptor('image'))
+    @UseInterceptors(FileInterceptor('image', { limits: { fileSize: 500 * 1024 } }))
     changeAvatar(@Body() userInfoDto: ChangeUserInfoDto, @Req() req, @UploadedFile() image){
         return this.usersInfoService.changeAvatar(userInfoDto, req.user.id, image)
     }

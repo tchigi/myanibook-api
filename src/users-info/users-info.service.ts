@@ -22,7 +22,7 @@ export class UsersInfoService {
             throw new HttpException('This nickname is already in use', HttpStatus.BAD_REQUEST)
         }
 
-        info.nickname = dto.value
+        info.nickname = dto.value as string
 
         await info.save()
         return info
@@ -34,7 +34,7 @@ export class UsersInfoService {
             info = await this.usersInfoRepository.create({ userId: dto.userId })
         }
 
-        info.animeList = dto.value
+        info.animeList = dto.value as string[]
 
         await info.save()
         return info
@@ -46,7 +46,7 @@ export class UsersInfoService {
             info = await this.usersInfoRepository.create({ userId: dto.userId })
         }
 
-        info.animeDayOfAdditionList = dto.value
+        info.animeDayOfAdditionList = dto.value as string[]
 
         await info.save()
         return info

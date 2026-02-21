@@ -20,13 +20,13 @@ export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
     @Column({type: DataType.STRING , allowNull: true})
     avatar: string;
 
-    @ApiProperty({example: 'test', description: 'User anime list'})
-    @Column({type: DataType.STRING , allowNull: true})
-    animeList: string;
+    @ApiProperty({example: '["Naruto", "Bleach"]', description: 'User anime list'})
+    @Column({type: DataType.JSON , allowNull: true})
+    animeList: string[];
 
-    @ApiProperty({example: 'test', description: 'User anime day of addition list'})
-    @Column({type: DataType.STRING , allowNull: true})
-    animeDayOfAdditionList: string;
+    @ApiProperty({example: '["2024-01-01", "2024-02-15"]', description: 'User anime day of addition list'})
+    @Column({type: DataType.JSON , allowNull: true})
+    animeDayOfAdditionList: string[];
 
     @ApiProperty({example: '1', description: 'User ID'})
     @ForeignKey(() => User)

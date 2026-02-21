@@ -1,9 +1,9 @@
-import { BelongsToMany, Column, DataType, ForeignKey,  Model, Table} from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "../users/users.model";
-import {UsersInfoConnectiveModel} from "./users-info-connective/users-info-connective.model";
 
 interface UsersInfoCreationAttrs {
+    userId: number;
 }
 @Table({tableName: 'users_info', updatedAt: false, createdAt: false})
 export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
@@ -21,7 +21,7 @@ export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
     avatar: string;
 
     @ApiProperty({example: 'test', description: 'User anime list'})
-    @Column({type: DataType.STRING , allowNull: true, })
+    @Column({type: DataType.STRING , allowNull: true})
     animeList: string;
 
     @ApiProperty({example: 'test', description: 'User anime day of addition list'})
@@ -33,7 +33,7 @@ export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
     @Column({type: DataType.INTEGER})
     userId: number
 
-    @BelongsToMany(() => User, () => UsersInfoConnectiveModel)
-    users: User[];
+    @BelongsTo(() => User)
+    user: User;
 
 }

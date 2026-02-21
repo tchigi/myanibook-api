@@ -3,22 +3,18 @@ import {ChangeUserInfoDto} from "./dto/change-user-info.dto";
 import {InjectModel} from "@nestjs/sequelize";
 import {FilesService} from "../files/files.service";
 import {UsersInfo} from "./users-info.model";
-import {UsersInfoConnectiveService} from "./users-info-connective/users-info-connective.service";
 
 @Injectable()
 export class UsersInfoService {
 
     constructor(@InjectModel(UsersInfo) private usersInfoRepository: typeof UsersInfo,
-                private fileService: FilesService,
-                private usersInfoConnectiveService: UsersInfoConnectiveService) {
+                private fileService: FilesService) {
     }
 
     async changeNickname(dto: ChangeUserInfoDto) {
         let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create()
-            info.userId = dto.userId
-            await info.$set('users', [dto.userId])
+            info = await this.usersInfoRepository.create({ userId: dto.userId })
         }
         const nickname = await this.usersInfoRepository.findOne({ where: { nickname: dto.value } })
 
@@ -35,9 +31,7 @@ export class UsersInfoService {
     async changeAnimeList(dto: ChangeUserInfoDto) {
         let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create()
-            info.userId = dto.userId
-            await info.$set('users', [dto.userId])
+            info = await this.usersInfoRepository.create({ userId: dto.userId })
         }
 
         info.animeList = dto.value
@@ -49,9 +43,7 @@ export class UsersInfoService {
     async changeAnimeDayOfAdditionList(dto: ChangeUserInfoDto) {
         let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create()
-            info.userId = dto.userId
-            await info.$set('users', [dto.userId])
+            info = await this.usersInfoRepository.create({ userId: dto.userId })
         }
 
         info.animeDayOfAdditionList = dto.value
@@ -63,9 +55,7 @@ export class UsersInfoService {
     async changeAvatar(dto: ChangeUserInfoDto, image: any) {
         let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create()
-            info.userId = dto.userId
-            await info.$set('users', [dto.userId])
+            info = await this.usersInfoRepository.create({ userId: dto.userId })
         }
 
         const fileName = await this.fileService.createFile(image)
@@ -75,17 +65,8 @@ export class UsersInfoService {
         return info
     }
 
-    async createUserInfo() {
-        const info = await this.usersInfoRepository.create()
-        return info
-    }
-
-    async addUserId(id) {
-        const x = await this.usersInfoConnectiveService.getId(id)
-        const info = await this.usersInfoRepository.findOne({ where: { id: x.usersInfoId }})
-        info.userId = x.userId
-        await info.save()
-        return info
+    async initUserInfo(userId: number) {
+        return this.usersInfoRepository.create({ userId })
     }
 
     async getUserInfoById(id) {

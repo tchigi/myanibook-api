@@ -15,8 +15,6 @@ import {ServeStaticModule} from "@nestjs/serve-static";
 import { UsersInfoModule } from './users-info/users-info.module';
 import * as path from "path";
 import {UsersInfo} from "./users-info/users-info.model";
-import {UsersInfoConnectiveModel} from "./users-info/users-info-connective/users-info-connective.model";
-import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/users-info-connective.module";
 
 @Module({
     controllers: [],
@@ -35,7 +33,7 @@ import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/user
             username: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
-            models: [User, Role, UserRoles, Post, UsersInfo, UsersInfoConnectiveModel],
+            models: [User, Role, UserRoles, Post, UsersInfo],
             autoLoadModels: true
         }),
         UsersModule,
@@ -44,7 +42,6 @@ import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/user
         PostsModule,
         FilesModule,
         UsersInfoModule,
-        UsersInfoConnectiveModule
     ]
 })
 export class AppModule {}

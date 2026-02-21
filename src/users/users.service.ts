@@ -17,18 +17,13 @@ export class UsersService {
     }
 
     async createUser(dto: CreateUserDto) {
-        console.log(dto)
         const user = await this.userRepository.create(dto)
 
         const role = await this.roleService.getRoleByValue("USER")
         await user.$set('roles', [role.id])
         user.roles = [role]
 
-        const info = await this.usersInfoService.createUserInfo()
-        await user.$set('userInfo', info)
-
-        console.log(user.id, '11111111111111111111111111111111111111111')
-        await this.usersInfoService.addUserId(user.id)
+        await this.usersInfoService.initUserInfo(user.id)
 
         return user
     }

@@ -15,24 +15,25 @@ import {ServeStaticModule} from "@nestjs/serve-static";
 import { UsersInfoModule } from './users-info/users-info.module';
 import * as path from "path";
 import {UsersInfo} from "./users-info/users-info.model";
-import {UsersInfoConnectiveModel} from "./users-info/users-info-connective/users-info-connective.model";
-import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/users-info-connective.module";
 
 @Module({
     controllers: [],
     providers: [],
     imports: [
+        ConfigModule.forRoot({
+            envFilePath: '.env',
+        }),
         ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname, 'static'),
         }),
         SequelizeModule.forRoot({
             dialect: 'postgres',
-            host: 'containers-us-west-179.railway.app',
-            port: 6422,
-            username: 'postgres',
-            password: 'r4Yk1lNChBKQGOfF0RgQ',
-            database: 'railway',
-            models: [User, Role, UserRoles, Post, UsersInfo, UsersInfoConnectiveModel],
+            host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT),
+            username: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
+            models: [User, Role, UserRoles, Post, UsersInfo],
             autoLoadModels: true
         }),
         UsersModule,
@@ -41,7 +42,6 @@ import {UsersInfoConnectiveModule} from "./users-info/users-info-connective/user
         PostsModule,
         FilesModule,
         UsersInfoModule,
-        UsersInfoConnectiveModule
     ]
 })
 export class AppModule {}

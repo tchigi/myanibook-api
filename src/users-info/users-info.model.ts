@@ -1,9 +1,9 @@
-import { BelongsToMany, Column, DataType, ForeignKey,  Model, Table} from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "../users/users.model";
-import {UsersInfoConnectiveModel} from "./users-info-connective/users-info-connective.model";
 
 interface UsersInfoCreationAttrs {
+    userId: number;
 }
 @Table({tableName: 'users_info', updatedAt: false, createdAt: false})
 export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
@@ -20,20 +20,20 @@ export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
     @Column({type: DataType.STRING , allowNull: true})
     avatar: string;
 
-    @ApiProperty({example: 'test', description: 'User anime list'})
-    @Column({type: DataType.STRING , allowNull: true, })
-    animeList: string;
+    @ApiProperty({example: '["Naruto", "Bleach"]', description: 'User anime list'})
+    @Column({type: DataType.JSON , allowNull: true})
+    animeList: string[];
 
-    @ApiProperty({example: 'test', description: 'User anime day of addition list'})
-    @Column({type: DataType.STRING , allowNull: true})
-    animeDayOfAdditionList: string;
+    @ApiProperty({example: '["2024-01-01", "2024-02-15"]', description: 'User anime day of addition list'})
+    @Column({type: DataType.JSON , allowNull: true})
+    animeDayOfAdditionList: string[];
 
     @ApiProperty({example: '1', description: 'User ID'})
     @ForeignKey(() => User)
     @Column({type: DataType.INTEGER})
     userId: number
 
-    @BelongsToMany(() => User, () => UsersInfoConnectiveModel)
-    users: User[];
+    @BelongsTo(() => User)
+    user: User;
 
 }

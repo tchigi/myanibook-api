@@ -4,7 +4,6 @@ import {Role} from "../roles/roles.model";
 import {UserRoles} from "../roles/user-roles.model";
 import {Post} from "../posts/posts.model";
 import {UsersInfo} from "../users-info/users-info.model";
-import {UsersInfoConnectiveModel} from "../users-info/users-info-connective/users-info-connective.model";
 
 interface UserCreationAttrs {
     email: string,
@@ -38,6 +37,6 @@ export class User extends Model<User, UserCreationAttrs> {
     @HasMany(() => Post)
     posts: Post[]
 
-    @BelongsToMany(() => UsersInfo, () => UsersInfoConnectiveModel)
-    userInfo: UsersInfo[];
+    @HasOne(() => UsersInfo)
+    userInfo: UsersInfo;
 }

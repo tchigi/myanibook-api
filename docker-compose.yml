@@ -19,7 +19,10 @@ services:
     container_name: postgres
     image: postgres:12
     environment:
-      PG_DATA: /var/lib/postgresql/data
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: myanibook
+      PGDATA: /var/lib/postgresql/data
     ports:
       - 5432:5432
     volumes:

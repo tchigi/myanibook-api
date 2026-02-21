@@ -34,7 +34,9 @@ import {UsersInfo} from "./users-info/users-info.model";
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
             models: [User, Role, UserRoles, Post, UsersInfo],
-            autoLoadModels: true
+            autoLoadModels: true,
+            synchronize: false,
+            logging: false,
         }),
         UsersModule,
         RolesModule,

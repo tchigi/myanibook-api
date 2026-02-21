@@ -59,7 +59,7 @@ http://localhost:5000/api/docs
 
 ## Эндпоинты
 
-> Колонка **Доступ** указывает требуемую роль. **USER** — базовая роль, назначается при регистрации автоматически. **ADMIN** — расширенный доступ.
+> Колонка **Доступ**: **JWT** — требуется авторизация (Bearer-токен), **USER** — базовая роль (назначается при регистрации автоматически), **ADMIN** — расширенный доступ, **—** — публичный эндпоинт.
 
 ### Авторизация `/auth`
 
@@ -83,10 +83,10 @@ http://localhost:5000/api/docs
 |-------|------|--------|----------|
 | GET | `/users-info/:id` | — | Получить профиль по ID пользователя |
 | GET | `/users-info` | ADMIN | Получить все профили |
-| POST | `/users-info/nickname` | — | Сменить никнейм |
-| POST | `/users-info/avatar` | — | Сменить аватар |
-| POST | `/users-info/anime-list` | — | Обновить аниме-лист |
-| POST | `/users-info/anime-day-of-addition-list` | — | Обновить список дат добавления аниме |
+| POST | `/users-info/nickname` | JWT | Сменить никнейм |
+| POST | `/users-info/avatar` | JWT | Сменить аватар |
+| POST | `/users-info/anime-list` | JWT | Обновить аниме-лист |
+| POST | `/users-info/anime-day-of-addition-list` | JWT | Обновить список дат добавления аниме |
 
 ### Роли `/roles`
 

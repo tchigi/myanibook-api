@@ -11,10 +11,10 @@ export class UsersInfoService {
                 private fileService: FilesService) {
     }
 
-    async changeNickname(dto: ChangeUserInfoDto) {
-        let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
+    async changeNickname(dto: ChangeUserInfoDto, userId: number) {
+        let info = await this.usersInfoRepository.findOne({ where: { userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create({ userId: dto.userId })
+            info = await this.usersInfoRepository.create({ userId })
         }
         const nickname = await this.usersInfoRepository.findOne({ where: { nickname: dto.value } })
 
@@ -28,10 +28,10 @@ export class UsersInfoService {
         return info
     }
 
-    async changeAnimeList(dto: ChangeUserInfoDto) {
-        let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
+    async changeAnimeList(dto: ChangeUserInfoDto, userId: number) {
+        let info = await this.usersInfoRepository.findOne({ where: { userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create({ userId: dto.userId })
+            info = await this.usersInfoRepository.create({ userId })
         }
 
         info.animeList = dto.value as string[]
@@ -40,10 +40,10 @@ export class UsersInfoService {
         return info
     }
 
-    async changeAnimeDayOfAdditionList(dto: ChangeUserInfoDto) {
-        let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
+    async changeAnimeDayOfAdditionList(dto: ChangeUserInfoDto, userId: number) {
+        let info = await this.usersInfoRepository.findOne({ where: { userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create({ userId: dto.userId })
+            info = await this.usersInfoRepository.create({ userId })
         }
 
         info.animeDayOfAdditionList = dto.value as string[]
@@ -52,10 +52,10 @@ export class UsersInfoService {
         return info
     }
 
-    async changeAvatar(dto: ChangeUserInfoDto, image: any) {
-        let info = await this.usersInfoRepository.findOne({ where: { userId: dto.userId } })
+    async changeAvatar(dto: ChangeUserInfoDto, userId: number, image: any) {
+        let info = await this.usersInfoRepository.findOne({ where: { userId } })
         if (!info) {
-            info = await this.usersInfoRepository.create({ userId: dto.userId })
+            info = await this.usersInfoRepository.create({ userId })
         }
 
         const fileName = await this.fileService.createFile(image)

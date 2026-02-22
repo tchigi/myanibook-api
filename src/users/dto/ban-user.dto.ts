@@ -2,11 +2,11 @@ import {ApiProperty} from "@nestjs/swagger";
 import {IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 export class BanUserDto {
-    @ApiProperty({example: 1, description: 'User id'})
+    @ApiProperty({example: 1, description: 'ID пользователя'})
     @IsNumber({}, {message: 'Should be a number'})
     readonly userId: number;
 
-    @ApiProperty({example: 'spam', description: 'Ban reason'})
+    @ApiProperty({example: 'spam', description: 'Причина блокировки'})
     @IsString({message: 'Should be a string'})
     @IsNotEmpty({message: 'Ban reason should not be empty'})
     readonly banReason: string

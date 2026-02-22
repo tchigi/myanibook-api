@@ -13,7 +13,7 @@ export class UsersController {
 
     constructor(private usersService: UsersService) {}
 
-    @ApiOperation({summary: 'Get all users'})
+    @ApiOperation({summary: 'Получить всех пользователей'})
     @ApiResponse({status: 200, type: [User]})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
@@ -22,7 +22,7 @@ export class UsersController {
         return this.usersService.getAllUsers()
     }
 
-    @ApiOperation({summary: 'Give a role'})
+    @ApiOperation({summary: 'Выдать роль пользователю'})
     @ApiResponse({status: 200})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
@@ -31,7 +31,7 @@ export class UsersController {
         return this.usersService.addRole(dto)
     }
 
-    @ApiOperation({summary: 'Ban user'})
+    @ApiOperation({summary: 'Забанить пользователя'})
     @ApiResponse({status: 200})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)

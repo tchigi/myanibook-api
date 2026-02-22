@@ -10,7 +10,7 @@ async function start() {
 
     const config = new DocumentBuilder()
         .setTitle('myanibook-api')
-        .setDescription('Docs REST API')
+        .setDescription('REST API документация')
         .setVersion('1.0.0')
         .addTag('tchigi')
         .build()

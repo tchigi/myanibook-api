@@ -14,7 +14,7 @@ import {ValidationPipe} from "../pipes/validation.pipe";
 export class UsersInfoController {
     constructor(private usersInfoService: UsersInfoService) {}
 
-    @ApiOperation({summary: 'Change nickname'})
+    @ApiOperation({summary: 'Изменить никнейм'})
     @ApiResponse({status: 200, type: UsersInfo})
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
@@ -23,7 +23,7 @@ export class UsersInfoController {
         return this.usersInfoService.changeNickname(userInfoDto, req.user.id)
     }
 
-    @ApiOperation({summary: 'Change anime list'})
+    @ApiOperation({summary: 'Изменить список аниме'})
     @ApiResponse({status: 200, type: UsersInfo})
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
@@ -32,16 +32,7 @@ export class UsersInfoController {
         return this.usersInfoService.changeAnimeList(userInfoDto, req.user.id)
     }
 
-    @ApiOperation({summary: 'Change anime day of addition list'})
-    @ApiResponse({status: 200, type: UsersInfo})
-    @UseGuards(JwtAuthGuard)
-    @UsePipes(ValidationPipe)
-    @Post('/anime-day-of-addition-list')
-    changeAnimeDayOfAdditionList(@Body() userInfoDto: ChangeUserInfoDto, @Req() req){
-        return this.usersInfoService.changeAnimeDayOfAdditionList(userInfoDto, req.user.id)
-    }
-
-    @ApiOperation({summary: 'Change avatar'})
+@ApiOperation({summary: 'Изменить аватар'})
     @ApiResponse({status: 200, type: UsersInfo})
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
@@ -51,14 +42,14 @@ export class UsersInfoController {
         return this.usersInfoService.changeAvatar(userInfoDto, req.user.id, image)
     }
 
-    @ApiOperation({summary: `Get user's info`})
+    @ApiOperation({summary: 'Получить информацию о пользователе'})
     @ApiResponse({status: 200, type: UsersInfo})
     @Get(`/:value`)
     getInfo(@Param('value') value: number){
         return this.usersInfoService.getUserInfoById(value)
     }
 
-    @ApiOperation({summary: 'Get all users info'})
+    @ApiOperation({summary: 'Получить информацию о всех пользователях'})
     @ApiResponse({status: 200, type: [UsersInfo]})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)

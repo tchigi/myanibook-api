@@ -2,7 +2,7 @@ import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {ChangeUserInfoDto} from "./dto/change-user-info.dto";
 import {InjectModel} from "@nestjs/sequelize";
 import {FilesService} from "../files/files.service";
-import {UsersInfo} from "./users-info.model";
+import {AnimeEntry, UsersInfo} from "./users-info.model";
 import {UniqueConstraintError} from "sequelize";
 
 @Injectable()
@@ -31,16 +31,7 @@ export class UsersInfoService {
     async changeAnimeList(dto: ChangeUserInfoDto, userId: number) {
         const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
 
-        info.animeList = dto.value as string[]
-
-        await info.save()
-        return info
-    }
-
-    async changeAnimeDayOfAdditionList(dto: ChangeUserInfoDto, userId: number) {
-        const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
-
-        info.animeDayOfAdditionList = dto.value as string[]
+        info.animeList = dto.value as AnimeEntry[]
 
         await info.save()
         return info

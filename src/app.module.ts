@@ -1,8 +1,7 @@
 import {Module} from "@nestjs/common";
 import {SequelizeModule} from "@nestjs/sequelize";
 import {UsersModule} from "./users/users.module";
-import {ConfigModule} from "@nestjs/config";
-import * as process from "process";
+import {ConfigModule, ConfigService} from "@nestjs/config";
 import {User} from "./users/users.model";
 import {Role} from "./roles/roles.model";
 import {UserRoles} from "./roles/user-roles.model";
@@ -26,15 +25,24 @@ import {UsersInfo} from "./users-info/users-info.model";
         ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname, 'static'),
         }),
-        SequelizeModule.forRoot({
-            dialect: 'postgres',
-            host: process.env.DB_HOST,
-            port: Number(process.env.DB_PORT),
-            username: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            models: [User, Role, UserRoles, Post, UsersInfo],
-            autoLoadModels: true
+        SequelizeModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => ({
+                dialect: 'postgres',
+                host: config.get('DB_HOST'),
+                port: config.get<number>('DB_PORT'),
+                username: config.get('DB_USER'),
+                password: config.get('DB_PASSWORD'),
+                database: config.get('DB_NAME'),
+                models: [User, Role, UserRoles, Post, UsersInfo],
+                autoLoadModels: false,
+                synchronize: false,
+                logging: false,
+                dialectOptions: {
+                    ssl: true,
+                },
+            }),
         }),
         UsersModule,
         RolesModule,

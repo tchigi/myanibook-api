@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import { UsersInfoController } from './users-info.controller';
 import { UsersInfoService } from './users-info.service';
 import {FilesModule} from "../files/files.module";
-import {JwtModule} from "@nestjs/jwt";
 import {SequelizeModule} from "@nestjs/sequelize";
 import {User} from "../users/users.model";
 import {UsersInfo} from "./users-info.model";
+import {AuthModule} from "../auth/auth.module";
 
 @Module({
   controllers: [UsersInfoController],
@@ -14,7 +14,7 @@ import {UsersInfo} from "./users-info.model";
   imports: [
     SequelizeModule.forFeature([User, UsersInfo]),
     FilesModule,
-    JwtModule,
+    forwardRef(() => AuthModule),
   ]
 })
 export class UsersInfoModule {}

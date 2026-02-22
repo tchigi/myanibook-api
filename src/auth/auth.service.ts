@@ -38,6 +38,9 @@ export class AuthService {
         if (!user) {
             throw new UnauthorizedException({message: 'Incorrect email or password'})
         }
+        if (user.banned) {
+            throw new UnauthorizedException({message: `Account is banned. Reason: ${user.banReason}`})
+        }
         const passwordEquals = await bcript.compare(userDto.password, user.password)
         if (!passwordEquals) {
             throw new UnauthorizedException({message: 'Incorrect email or password'})

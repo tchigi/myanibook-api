@@ -11,14 +11,11 @@ import {Post} from "../posts/posts.model";
 import {FilesModule} from "../files/files.module";
 import {UsersInfo} from "../users-info/users-info.model";
 import {UsersInfoModule} from "../users-info/users-info.module";
-import {UsersInfoConnectiveModel} from "../users-info/users-info-connective/users-info-connective.model";
-
-
 @Module({
     controllers: [UsersController],
     providers: [UsersService],
     imports: [
-        SequelizeModule.forFeature([User, Role, UserRoles, Post, UsersInfo, UsersInfoConnectiveModel]),
+        SequelizeModule.forFeature([User, Role, UserRoles, Post, UsersInfo]),
         RolesModule,
         forwardRef(()=> AuthModule),
         FilesModule,

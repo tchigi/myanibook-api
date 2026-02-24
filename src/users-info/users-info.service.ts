@@ -37,7 +37,7 @@ export class UsersInfoService {
         return info
     }
 
-    async changeAvatar(dto: ChangeUserInfoDto, userId: number, image: any) {
+    async changeAvatar(userId: number, image: any) {
         const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
 
         const oldAvatar = info.avatar

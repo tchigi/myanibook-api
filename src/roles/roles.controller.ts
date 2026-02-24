@@ -12,7 +12,7 @@ export class RolesController {
     constructor(private roleService: RolesService) {}
 
     @ApiOperation({summary: 'Создать роль'})
-    @ApiResponse({status: 200, type: Role})
+    @ApiResponse({status: 201, type: Role})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()

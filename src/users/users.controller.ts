@@ -23,7 +23,7 @@ export class UsersController {
     }
 
     @ApiOperation({summary: 'Выдать роль пользователю'})
-    @ApiResponse({status: 200})
+    @ApiResponse({status: 201})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post('/role')
@@ -32,7 +32,7 @@ export class UsersController {
     }
 
     @ApiOperation({summary: 'Забанить пользователя'})
-    @ApiResponse({status: 200})
+    @ApiResponse({status: 201})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post('/ban')

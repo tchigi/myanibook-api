@@ -1,5 +1,5 @@
 import {Body, Controller, Get, Param, Post, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes} from '@nestjs/common';
-import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiConsumes, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Roles} from "../auth/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
@@ -15,7 +15,7 @@ export class UsersInfoController {
     constructor(private usersInfoService: UsersInfoService) {}
 
     @ApiOperation({summary: 'Изменить никнейм'})
-    @ApiResponse({status: 200, type: UsersInfo})
+    @ApiResponse({status: 201, type: UsersInfo})
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('/nickname')
@@ -24,7 +24,7 @@ export class UsersInfoController {
     }
 
     @ApiOperation({summary: 'Изменить список аниме'})
-    @ApiResponse({status: 200, type: UsersInfo})
+    @ApiResponse({status: 201, type: UsersInfo})
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('/anime-list')
@@ -32,14 +32,14 @@ export class UsersInfoController {
         return this.usersInfoService.changeAnimeList(userInfoDto, req.user.id)
     }
 
-@ApiOperation({summary: 'Изменить аватар'})
-    @ApiResponse({status: 200, type: UsersInfo})
+    @ApiOperation({summary: 'Изменить аватар', description: 'Изображение: не более 500 КБ'})
+    @ApiResponse({status: 201, type: UsersInfo})
+    @ApiConsumes('multipart/form-data')
     @UseGuards(JwtAuthGuard)
-    @UsePipes(ValidationPipe)
     @Post('/avatar')
     @UseInterceptors(FileInterceptor('image', { limits: { fileSize: 500 * 1024 } }))
-    changeAvatar(@Body() userInfoDto: ChangeUserInfoDto, @Req() req, @UploadedFile() image){
-        return this.usersInfoService.changeAvatar(userInfoDto, req.user.id, image)
+    changeAvatar(@Req() req, @UploadedFile() image){
+        return this.usersInfoService.changeAvatar(req.user.id, image)
     }
 
     @ApiOperation({summary: 'Получить информацию о пользователе'})

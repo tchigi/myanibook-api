@@ -37,12 +37,17 @@ export class UsersInfoService {
         return info
     }
 
-    async changeAvatar(dto: ChangeUserInfoDto, userId: number, image: any) {
+    async changeAvatar(userId: number, image: any) {
         const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
 
+        const oldAvatar = info.avatar
         const fileName = await this.fileService.createFile(image)
-        info.avatar = fileName
 
+        if (oldAvatar) {
+            this.fileService.deleteFile(oldAvatar)
+        }
+
+        info.avatar = fileName
         await info.save()
         return info
     }

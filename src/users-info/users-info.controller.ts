@@ -5,7 +5,8 @@ import {RolesGuard} from "../auth/roles.guard";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {UsersInfoService} from "./users-info.service";
 import {FileInterceptor} from "@nestjs/platform-express";
-import {ChangeUserInfoDto} from "./dto/change-user-info.dto";
+import {ChangeNicknameDto} from "./dto/change-nickname.dto";
+import {ChangeAnimeListDto} from "./dto/change-anime-list.dto";
 import {UsersInfo} from "./users-info.model";
 import {ValidationPipe} from "../pipes/validation.pipe";
 
@@ -19,8 +20,8 @@ export class UsersInfoController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('/nickname')
-    changeNickname(@Body() userInfoDto: ChangeUserInfoDto, @Req() req){
-        return this.usersInfoService.changeNickname(userInfoDto, req.user.id)
+    changeNickname(@Body() dto: ChangeNicknameDto, @Req() req){
+        return this.usersInfoService.changeNickname(dto, req.user.id)
     }
 
     @ApiOperation({summary: 'Изменить список аниме'})
@@ -28,8 +29,8 @@ export class UsersInfoController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('/anime-list')
-    changeAnimeList(@Body() userInfoDto: ChangeUserInfoDto, @Req() req){
-        return this.usersInfoService.changeAnimeList(userInfoDto, req.user.id)
+    changeAnimeList(@Body() dto: ChangeAnimeListDto, @Req() req){
+        return this.usersInfoService.changeAnimeList(dto, req.user.id)
     }
 
     @ApiOperation({summary: 'Изменить аватар', description: 'Изображение: не более 500 КБ'})

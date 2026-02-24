@@ -1,5 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {ChangeUserInfoDto} from "./dto/change-user-info.dto";
+import {ChangeNicknameDto} from "./dto/change-nickname.dto";
+import {ChangeAnimeListDto} from "./dto/change-anime-list.dto";
 import {InjectModel} from "@nestjs/sequelize";
 import {FilesService} from "../files/files.service";
 import {AnimeEntry, UsersInfo} from "./users-info.model";
@@ -12,7 +13,7 @@ export class UsersInfoService {
                 private fileService: FilesService) {
     }
 
-    async changeNickname(dto: ChangeUserInfoDto, userId: number) {
+    async changeNickname(dto: ChangeNicknameDto, userId: number) {
         const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
 
         try {
@@ -28,7 +29,7 @@ export class UsersInfoService {
         return info
     }
 
-    async changeAnimeList(dto: ChangeUserInfoDto, userId: number) {
+    async changeAnimeList(dto: ChangeAnimeListDto, userId: number) {
         const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
 
         info.animeList = dto.value as AnimeEntry[]

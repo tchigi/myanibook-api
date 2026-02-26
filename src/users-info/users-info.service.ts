@@ -1,6 +1,7 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {ChangeNicknameDto} from "./dto/change-nickname.dto";
-import {ChangeAnimeListDto} from "./dto/change-anime-list.dto";
+import {AddAnimeEntryDto} from "./dto/add-anime-entry.dto";
+import {RemoveAnimeEntryDto} from "./dto/remove-anime-entry.dto";
 import {InjectModel} from "@nestjs/sequelize";
 import {FilesService} from "../files/files.service";
 import {AnimeEntry, UsersInfo} from "./users-info.model";
@@ -29,11 +30,28 @@ export class UsersInfoService {
         return info
     }
 
-    async changeAnimeList(dto: ChangeAnimeListDto, userId: number) {
+    async addAnimeEntry(dto: AddAnimeEntryDto, userId: number) {
         const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
+        if (info.animeList.some(e => e.id === dto.id)) {
+            throw new HttpException(`Аниме с id ${dto.id} уже есть в списке`, HttpStatus.CONFLICT)
+        }
 
-        info.animeList = dto.value as AnimeEntry[]
+        const newEntry: AnimeEntry = {
+            id: dto.id,
+            addedAt: dto.addedAt ?? new Date().toISOString().split('T')[0],
+        }
+        info.animeList = [...info.animeList, newEntry]
+        await info.save()
+        return info
+    }
 
+    async removeAnimeEntry(dto: RemoveAnimeEntryDto, userId: number) {
+        const [info] = await this.usersInfoRepository.findOrCreate({ where: { userId }, defaults: { userId } })
+        if (!info.animeList.some(e => e.id === dto.id)) {
+            throw new HttpException(`Аниме с id ${dto.id} не найдено в списке`, HttpStatus.NOT_FOUND)
+        }
+
+        info.animeList = info.animeList.filter(e => e.id !== dto.id)
         await info.save()
         return info
     }

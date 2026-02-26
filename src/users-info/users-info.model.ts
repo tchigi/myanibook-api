@@ -26,7 +26,7 @@ export class UsersInfo extends Model<UsersInfo, UsersInfoCreationAttrs> {
     avatar: string;
 
     @ApiProperty({example: '[{"id": 20, "addedAt": "2024-01-01"}]', description: 'Список аниме пользователя'})
-    @Column({type: DataType.JSON , allowNull: true})
+    @Column({type: DataType.JSON , allowNull: false, defaultValue: []})
     animeList: AnimeEntry[];
 
     @ApiProperty({example: '1', description: 'ID пользователя'})

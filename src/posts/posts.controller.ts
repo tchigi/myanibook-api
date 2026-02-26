@@ -1,5 +1,5 @@
 import {Body, Controller, Post, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes} from '@nestjs/common';
-import {ApiConsumes, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {CreatePostDto} from "./dto/create-post.dto";
 import {PostsService} from "./posts.service";
 import {FileInterceptor} from "@nestjs/platform-express";
@@ -14,6 +14,7 @@ export class PostsController {
     constructor(private postService: PostsService) {
     }
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Создать пост', description: 'Изображение: не более 1 МБ'})
     @ApiResponse({status: 201, type: PostModel})
     @ApiConsumes('multipart/form-data')

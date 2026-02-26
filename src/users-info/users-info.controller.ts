@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, Param, Post, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes} from '@nestjs/common';
-import {ApiConsumes, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Roles} from "../auth/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
@@ -16,6 +16,7 @@ import {ValidationPipe} from "../pipes/validation.pipe";
 export class UsersInfoController {
     constructor(private usersInfoService: UsersInfoService) {}
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Изменить никнейм'})
     @ApiResponse({status: 201, type: UsersInfo})
     @UseGuards(JwtAuthGuard)
@@ -25,6 +26,7 @@ export class UsersInfoController {
         return this.usersInfoService.changeNickname(dto, req.user.id)
     }
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Добавить аниме в список'})
     @ApiResponse({status: 201, type: UsersInfo})
     @ApiResponse({status: 409, description: 'Аниме уже есть в списке'})
@@ -35,6 +37,7 @@ export class UsersInfoController {
         return this.usersInfoService.addAnimeEntry(dto, req.user.id)
     }
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Удалить аниме из списка'})
     @ApiResponse({status: 200, type: UsersInfo})
     @ApiResponse({status: 404, description: 'Аниме не найдено в списке'})
@@ -45,6 +48,7 @@ export class UsersInfoController {
         return this.usersInfoService.removeAnimeEntry(dto, req.user.id)
     }
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Изменить аватар', description: 'Изображение: не более 500 КБ'})
     @ApiResponse({status: 201, type: UsersInfo})
     @ApiConsumes('multipart/form-data')
@@ -62,6 +66,7 @@ export class UsersInfoController {
         return this.usersInfoService.getUserInfoById(value)
     }
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Получить информацию о всех пользователях'})
     @ApiResponse({status: 200, type: [UsersInfo]})
     @Roles('ADMIN')

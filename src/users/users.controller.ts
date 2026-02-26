@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post, UseGuards} from "@nestjs/common";
 import {UsersService} from "./users.service";
-import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {User} from "./users.model";
 import {Roles} from "../auth/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
@@ -13,6 +13,7 @@ export class UsersController {
 
     constructor(private usersService: UsersService) {}
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Получить всех пользователей'})
     @ApiResponse({status: 200, type: [User]})
     @Roles('ADMIN')
@@ -22,6 +23,7 @@ export class UsersController {
         return this.usersService.getAllUsers()
     }
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Выдать роль пользователю'})
     @ApiResponse({status: 201})
     @Roles('ADMIN')
@@ -31,6 +33,7 @@ export class UsersController {
         return this.usersService.addRole(dto)
     }
 
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Забанить пользователя'})
     @ApiResponse({status: 201})
     @Roles('ADMIN')

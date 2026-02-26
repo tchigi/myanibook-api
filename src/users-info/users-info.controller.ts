@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes} from '@nestjs/common';
 import {ApiConsumes, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Roles} from "../auth/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
@@ -6,7 +6,8 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {UsersInfoService} from "./users-info.service";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {ChangeNicknameDto} from "./dto/change-nickname.dto";
-import {ChangeAnimeListDto} from "./dto/change-anime-list.dto";
+import {AddAnimeEntryDto} from "./dto/add-anime-entry.dto";
+import {RemoveAnimeEntryDto} from "./dto/remove-anime-entry.dto";
 import {UsersInfo} from "./users-info.model";
 import {ValidationPipe} from "../pipes/validation.pipe";
 
@@ -24,13 +25,24 @@ export class UsersInfoController {
         return this.usersInfoService.changeNickname(dto, req.user.id)
     }
 
-    @ApiOperation({summary: 'Изменить список аниме'})
+    @ApiOperation({summary: 'Добавить аниме в список'})
     @ApiResponse({status: 201, type: UsersInfo})
+    @ApiResponse({status: 409, description: 'Аниме уже есть в списке'})
     @UseGuards(JwtAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('/anime-list')
-    changeAnimeList(@Body() dto: ChangeAnimeListDto, @Req() req){
-        return this.usersInfoService.changeAnimeList(dto, req.user.id)
+    addAnimeEntry(@Body() dto: AddAnimeEntryDto, @Req() req){
+        return this.usersInfoService.addAnimeEntry(dto, req.user.id)
+    }
+
+    @ApiOperation({summary: 'Удалить аниме из списка'})
+    @ApiResponse({status: 200, type: UsersInfo})
+    @ApiResponse({status: 404, description: 'Аниме не найдено в списке'})
+    @UseGuards(JwtAuthGuard)
+    @UsePipes(ValidationPipe)
+    @Delete('/anime-list')
+    removeAnimeEntry(@Body() dto: RemoveAnimeEntryDto, @Req() req){
+        return this.usersInfoService.removeAnimeEntry(dto, req.user.id)
     }
 
     @ApiOperation({summary: 'Изменить аватар', description: 'Изображение: не более 500 КБ'})

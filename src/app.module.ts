@@ -1,5 +1,6 @@
 import {Module} from "@nestjs/common";
 import {SequelizeModule} from "@nestjs/sequelize";
+import {HealthController} from "./health/health.controller";
 import {UsersModule} from "./users/users.module";
 import {ConfigModule, ConfigService} from "@nestjs/config";
 import {User} from "./users/users.model";
@@ -16,7 +17,7 @@ import * as path from "path";
 import {UsersInfo} from "./users-info/users-info.model";
 
 @Module({
-    controllers: [],
+    controllers: [HealthController],
     providers: [],
     imports: [
         ConfigModule.forRoot({
